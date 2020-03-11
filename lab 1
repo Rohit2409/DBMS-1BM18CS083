@@ -1,106 +1,43 @@
-CREATE TABLE PERSON
+umber(7,2),
+primary key(driver_id,regno,report_no),
+foreign key(driver_id,regno)references owns(driver_id,regno)on delete cascade,
+foreign key(report_no)references accident(report_no)on delete cascade);
+ ALTER TABLE paerticipated RENAME TO participated;
 
-(
+insert into person values('&driver_id','&name','&address');
+select * from person;
+insert into car values('&regno','&model',&year);
+select * from car;
+insert into accident values(&report_no,'&adate','&location');
+select * from accident;
+insert into owns values(&driver_id,'&regno');
+select * from owns;
+insert into participated values(&driver_id,'&regno','&report_no',&damage_amt);
+select * from participated;
+UPDATE PARTICIPATED
 
-DRIVER_ID VARCHAR2(10),
+SET DAMAGE_AMT=25000
 
-NAME VARCHAR2(20),
-
-ADDRESS VARCHAR2(15),
-
-PRIMARY KEY(DRIVER_ID)
-
-);
-
-CREATE TABLE CAR
-
-(
-
-REGNO VARCHAR2(10),
-
-MODEL VARCHAR2(10),
-
-YEAR NUMBER(4),
-
-PRIMARY KEY(REGNO)
-
-);
-
-CREATE TABLE ACCIDENT
-
-(
-
-REPORT_NO NUMBER(5),
-
-ADATE DATE,
-
-LOCATION VARCHAR2(15),
-
-PRIMARY KEY(REPORT_NO)
-
-);
+WHERE REPORT_NO =12 AND REGNO='KA04Q2301';
 
 
-CREATE TABLE OWNS
 
-(
+SELECT COUNT(*) FROM ACCIDENT
 
-DRIVER_ID VARCHAR2(10),
+WHERE ADATE LIKE '__-___-02';
 
-REGNO VARCHAR2(10),
 
-PRIMARY KEY(DRIVER_ID,REGNO),
 
-FOREIGN KEY(DRIVER_ID) REFERENCES PERSON(DRIVER_ID),
+SELECT COUNT(A.REPORT_NO)
 
-FOREIGN KEY(REGNO) REFERENCES CAR(REGNO)
+FROM ACCIDENT A, PARTICIPATED P, CAR C
 
-);
+WHERE A.REPORT_NO=P.REPORT_NO
 
-CREATE TABLE PARTICIPATED
+AND
 
-(
+P.REGNO=C.REGNO
 
-DRIVER_ID VARCHAR2(10),
+AND
 
-REGNO VARCHAR2(10),
-
-REPORT_NO NUMBER(5),
-
-DAMAGE_AMT NUMBER(7,2),
-
-PRIMARY KEY(DRIVER_ID,REGNO,REPORT_NO),
-
-FOREIGN KEY(DRIVER_ID,REGNO) REFERENCES OWNS(DRIVER_ID,REGNO) ON DELETE CASCADE,
-
-FOREIGN KEY(REPORT_NO) REFERENCES ACCIDENT(REPORT_NO) ON
-
-DELETE CASCADE
-
-);
-
-INSERT INTO PERSON VALUES
-
-('&DRIVER_ID','&NAME','&ADDRESS');
-
-INSERT INTO CAR VALUES
-
-('&REGNO','&MODEL',&YEAR);
-
-INSERT INTO ACCIDENT VALUES
-
-(&REPORT_NO,'&ADATE','&LOCATION');
-
-INSERT INTO OWNS VALUES
-
-('&DRIVER_ID','&REGNO');
-
-INSERT INTO PARTICIPATED VALUES
-
-('&DRIVER_ID','&REGNO','&REPORT_NO',&DAMAGE_AMT);
-
-SELECT * FROM PERSON;
-SELECT * FROM OWNS;
-SELECT * FROM PARTICIPATED;
-SELECT * FROM ACCIDENT;
-SELECT * FROM car;
+C.MODEL='MARUTHI-DX';
